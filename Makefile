@@ -1,4 +1,3 @@
-PROJECT_ROOT_DIR	=$(shell pwd)
 TARGET				=./build
 
 all:
