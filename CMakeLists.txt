@@ -1,20 +1,16 @@
 cmake_minimum_required(VERSION 3.29)
 set(CMAKE_CXX_STANDARD 23)
-set(BUILD_SHARED_LIBS ON)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 project(imgui)
 
 option(RL_BRIDGE_RAYLIB_LIBRARY_DIR "Path to raylib" "")
 
 if(NOT RL_BRIDGE_RAYLIB_LIBRARY_DIR)
-  message("Must Set RL_BRIDGE_RAYLIB_LIBRARY_DIR path to raylib")
+  message(STATUS "Must Set RL_BRIDGE_RAYLIB_LIBRARY_DIR path to raylib")
   return(1)
-else()
-  get_filename_component(
-    RL_BRIDGE_RAYLIB_LIBRARY_DIR
-    "${CMAKE_CURRENT_SOURCE_DIR}/${RL_BRIDGE_RAYLIB_LIBRARY_DIR}" ABSOLUTE)
-  message("Raylib dir ${RL_BRIDGE_RAYLIB_LIBRARY_DIR}")
 endif()
 
 find_library(
@@ -25,10 +21,11 @@ find_library(
 message(STATUS "RAYLIB_DIR: ${RL_BRIDGE_RAYLIB_LIBRARY_DIR}")
 message(STATUS "RAYLIB_LIBRARY: ${RL_BRIDGE_RAYLIB_LIBRARY}")
 
-include_directories(include/)
-include_directories(${RL_BRIDGE_RAYLIB_LIBRARY_DIR}/include)
+file(GLOB CXX_SRC "src/*.cpp")
 
-file(GLOB CXX_SRC "src/*.h" "src/*.cpp")
+add_library(${PROJECT_NAME} ${CXX_SRC})
 
-add_library(${PROJECT_NAME} SHARED ${CXX_SRC})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${RL_BRIDGE_RAYLIB_LIBRARY})
+target_include_directories(${PROJECT_NAME} PUBLIC include/)
+target_include_directories(${PROJECT_NAME}
+                           PRIVATE ${RL_BRIDGE_RAYLIB_LIBRARY_DIR}/include)
+target_link_libraries(${PROJECT_NAME} PUBLIC ${RL_BRIDGE_RAYLIB_LIBRARY})
