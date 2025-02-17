@@ -5,23 +5,28 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 project(imgui)
 
-option(RL_BRIDGE_RAYLIB_LIBRARY "Path to raylib" "")
+option(RL_BRIDGE_RAYLIB_LIBRARY_DIR "Path to raylib" "")
 
-if(NOT RL_BRIDGE_RAYLIB_LIBRARY)
+if(NOT RL_BRIDGE_RAYLIB_LIBRARY_DIR)
   message("Must Set RL_BRIDGE_RAYLIB_LIBRARY path to raylib")
-  return()
+  return(1)
+else()
+  get_filename_component(
+    RL_BRIDGE_RAYLIB_LIBRARY_DIR
+    "${CMAKE_CURRENT_SOURCE_DIR}/${RL_BRIDGE_RAYLIB_LIBRARY_DIR}" ABSOLUTE)
+  message("Raylib dir ${RL_BRIDGE_RAYLIB_LIBRARY_DIR}")
 endif()
 
 find_library(
   RL_BRIDGE_RAYLIB_LIBRARY
   NAMES raylib
-  HINTS "${RL_BRIDGE_RAYLIB_DIR}/lib" REQUIRED)
+  HINTS "${RL_BRIDGE_RAYLIB_LIBRARY_DIR}/lib" REQUIRED)
 
-message(STATUS "RAYLIB_DIR: ${RL_BRIDGE_RAYLIB_DIR}")
-message(STATUS "RAYLIB_LIBRARY: ${RL_BRIDGE_RAYLIB_DIR}")
+message(STATUS "RAYLIB_DIR: ${RL_BRIDGE_RAYLIB_LIBRARY_DIR}")
+message(STATUS "RAYLIB_LIBRARY: ${RL_BRIDGE_RAYLIB_LIBRARY}")
 
 include_directories(include/)
-include_directories(${RL_BRIDGE_RAYLIB_DIR}/include)
+include_directories(${RL_BRIDGE_RAYLIB_LIBRARY_DIR}/include)
 
 file(GLOB CXX_SRC "src/*.h" "src/*.cpp")
 

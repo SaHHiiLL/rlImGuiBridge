@@ -4,3 +4,15 @@ This library is a convenient collection of files sourced from both the [imgui](h
 
 ####
 Final artifact will be located in ./build/lib
+
+
+``` console
+$ mkdir -p build
+$ cd build
+$ cmake .. -DRL_BRIDGE_RAYLIB_LIBRARY_DIR="/path/to/raylib"
+$ make
+```
+
+``` cmake
+set(RL_BRIDGE_RAYLIB_LIBRARY_DIR "/path/to/raylib")
+```
