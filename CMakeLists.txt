@@ -5,6 +5,13 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 project(imgui)
 
+option(RL_BRIDGE_RAYLIB_LIBRARY "Path to raylib" "")
+
+if(NOT RL_BRIDGE_RAYLIB_LIBRARY)
+  message("Must Set RL_BRIDGE_RAYLIB_LIBRARY path to raylib")
+  return()
+endif()
+
 find_library(
   RL_BRIDGE_RAYLIB_LIBRARY
   NAMES raylib
