@@ -8,7 +8,7 @@ project(imgui)
 option(RL_BRIDGE_RAYLIB_LIBRARY_DIR "Path to raylib" "")
 
 if(NOT RL_BRIDGE_RAYLIB_LIBRARY_DIR)
-  message("Must Set RL_BRIDGE_RAYLIB_LIBRARY path to raylib")
+  message("Must Set RL_BRIDGE_RAYLIB_LIBRARY_DIR path to raylib")
   return(1)
 else()
   get_filename_component(
